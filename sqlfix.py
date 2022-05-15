@@ -18,6 +18,16 @@ backup = args.backup
 
 import subprocess
 
+def backup_database():
+	backup_command = '''wp db export ~/backup`date +"%m-%d-%Y-%T"`.sql'''
+	backup_run = subprocess.Popen(backup_command, shell=True, stdout=subprocess.PIPE)
+	backup_output = backup_run.communicate()[0].decode('utf-8').strip()
+	print(f'{backup_output}')
+	backup_run.stdout.close()
+
+if backup == '1':
+	backup_database()
+
 def convert_to_innodb():
 
 	query = '''wp db query "SHOW TABLE STATUS WHERE Engine = 'MyISAM';" --silent --skip-column-names| awk '{ print $1}' '''
@@ -41,16 +51,6 @@ def convert_to_innodb():
 
 if convert_tables == '1':
 	convert_to_innodb()
-
-def backup_database():
-	backup_command = '''wp db export ~/backup`date +"%m-%d-%Y-%T"`.sql'''
-	backup_run = subprocess.Popen(backup_command, shell=True, stdout=subprocess.PIPE)
-	backup_output = backup_run.communicate()[0].decode('utf-8').strip()
-	print(f'{backup_output}')
-	backup_run.stdout.close()
-
-if backup == '1':
-	backup_database()
 
 import os
 path = "SQLfix"
