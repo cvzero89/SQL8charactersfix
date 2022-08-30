@@ -1,11 +1,12 @@
+# -*- coding: utf-8 -*-
 import sys
 
-checking_version = f'{sys.version_info.major}.{sys.version_info.minor}'
+checking_version = str(sys.version_info.major) +'.'+ str(sys.version_info.minor)
 
-if checking_version == '3.6' or checking_version > '3.5.9' :
-    print(f'Running Python version is {checking_version}')
+if checking_version == '3.6' or checking_version > '3.5.9':
+    print('Running Python version is %s' %(checking_version))
 else:
-    print(f'This script will not work on Python {checking_version}, please update before running')
+    print('This script will not work on Python %s, please update before running' %(checking_version))
     exit()
 
 import argparse
@@ -98,7 +99,14 @@ with open(file_name, 'w') as file_fix:
 run_import = subprocess.Popen(['wp', 'db', 'import', file_name], stdout=subprocess.PIPE)
 import_check = run_import.communicate()[0].decode('utf-8').strip()
 if import_check == f"Success: Imported from '{file_name}'.":
-	print(import_check)
+	print(f'{import_check}\n)
 else:
 	print(f"Could not import file. Don't ask me, I'm a script. \nError: \n {import_check}")
+	exit()
 run_import.stdout.close()
+import time
+time.sleep(2)
+print('Updating DB_CHARSET')
+update_dbcharset = subprocess.Popen(['wp', 'config', 'set', 'DB_CHARSET', 'utf8'], stdout=subprocess.DEVNULL)
+
+print('Done.')
