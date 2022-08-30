@@ -99,7 +99,7 @@ with open(file_name, 'w') as file_fix:
 run_import = subprocess.Popen(['wp', 'db', 'import', file_name], stdout=subprocess.PIPE)
 import_check = run_import.communicate()[0].decode('utf-8').strip()
 if import_check == f"Success: Imported from '{file_name}'.":
-	print(f'{import_check}\n)
+	print(f'{import_check}\n')
 else:
 	print(f"Could not import file. Don't ask me, I'm a script. \nError: \n {import_check}")
 	exit()
