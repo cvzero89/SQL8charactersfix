@@ -59,46 +59,28 @@ import subprocess
 
 wordpress_prefix = subprocess.Popen(['wp', 'config', 'get', 'table_prefix'], stdout=subprocess.PIPE)
 prefix = wordpress_prefix.communicate()[0].decode('utf-8').strip()
+prefix = 'wp_testy_'
 print(f"The WordPress Prefix is {prefix}")
 wordpress_prefix.stdout.close()
 
 tables = ['comments','postmeta','posts','terms']
 posts_values = ['post_excerpt', 'post_content', 'post_title']
 
-character_to_replace = ['Î±, α', 'Î², β', 'Î³, γ', 'Î´, δ', 'Îµ, ε', 'Î¶, ζ', 'Î·, η', 'Î¸, θ', 'Î¹, ι', 'Îº, κ', 'Î», λ', 'Î¼, μ', 'Î½, ν', 'Î¾, ξ', 'Î¿, ο', 'Ï€, π', 'Ï, ρ', 'Ïƒ, σ', 'Ï„, τ', 'Ï…, υ', 'Ï†, φ', 'Ï‡, χ', 'Ïˆ, ψ', 'Ï‰, ω', 'Î‘, Α', 'Î’, Β', 'Î“, Γ', 'Î”, Δ', 'Î•, Ε', 'Î–, Ζ', 'Î—, Η', 'Î˜, Θ', 'Î™, Ι', 'Îš, Κ', 'Î›, Λ', 'Îœ, Μ', 'Î, Ν', 'Îž, Ξ', 'ÎŸ, Ο', 'Î , Π', 'Î¡, Ρ', 'Î£, Σ', 'Î¤, Τ', 'Î¥, Υ', 'Î¦, Φ', 'Î§, Χ', 'Î¨, Ψ', 'Î©, Ω', 'Î¬, ά', 'Î, έ', 'Î®, ή', 'Î¯, ί', 'ÏŒ, ό', 'Ï, ύ', 'ÏŽ, ώ', 'Î†, Ά', 'Îˆ, Έ', 'Î‰, Ή', 'ÎŠ, Ί', 'ÎŒ, Ό', 'ÎŽ, Ύ', 'Î, Ώ', 'Ï‹, ϋ', 'Î°, υ', 'ÏŠ, ϊ', 'Î, ι', 'Ï‚, ς', 'â€¦, …', 'â€™, ’', 'àƒâ‚¬, ä', 'â€˜, ', 'â€œ, ”', 'â€�, ”', 'â€¹, ‹', 'â€º, ›', 'â€”, —', 'â€“, —', 'â€?, ”', 'àƒ’, à', 'â’€’™, ’', 'â’€’œ, “', 'â’€?, ”', 'àƒ’©, é', 'â’€’¦, ', 'â€“, •', 'â‚¬, €','â€, "', 'â€“, –', 'â€¢, -', 'â€œ, "', 'Â¡, ¡', 'Â¢, ¢', 'Â£, £', 'Â¤, ¤', 'Â¥, ¥', 'Â¦, ¦', 'Â§, §', 'Â¨, ¨', 'Â©, ©', 'Âª, ª', 'Â«, «', 'Â¬, ¬', 'Â, ', 'Â®, ®', 'Â¯, ¯', 'Â°, °', 'Â±, ±', 'Â², ²', 'Â³, ³', 'Â´, ´', 'Âµ, µ', 'Â¶, ¶', 'Â·, ·', 'Â¸, ¸', 'Â¹, ¹', 'Âº, º', 'Â», »', 'Â¼, ¼', 'Â½, ½', 'Â¾, ¾', 'Â¿, ¿', 'Ã€, À', 'Ã, Á', 'Ã‚, Â', 'Ãƒ, Ã', 'Ã„, Ä', 'Ã…, Å', 'Ã†, Æ', 'Ã‡, Ç', 'Ãˆ, È', 'Ã‰, É', 'ÃŠ, Ê', 'Ã‹, Ë', 'ÃŒ, Ì', 'Ã, Í', 'ÃŽ, Î', 'Ã, Ï', 'Ã, Ð', 'Ã‘, Ñ', 'Ã’, Ò', 'Ã“, Ó', 'Ã”, Ô', 'Ã•, Õ', 'Ã–, Ö', 'Ã—, ×', 'Ã˜, Ø', 'Ã™, Ù', 'Ãš, Ú', 'Ã›, Û', 'Ãœ, Ü', 'Ã, Ý', 'Ãž, Þ', 'ÃŸ, ß', 'Ã , à', 'Ã¡, á', 'Ã¢, â', 'Ã£, ã', 'Ã¤, ä', 'Ã¥, å', 'Ã¦, æ', 'Ã§, ç', 'Ã¨, è', 'Ã©, é', 'Ãª, ê', 'Ã«, ë', 'Ã¬, ì', 'Ã, í', 'Ã®, î', 'Ã¯, ï', 'Ã°, ð', 'Ã±, ñ', 'Ã², ò', 'Ã³, ó', 'Ã´, ô', 'Ãµ, õ', 'Ã¶, ö', 'Ã·, ÷','Ã¸, ø','Ã¹, ù', 'Ãº, ú', 'Ã», û','Ã¼, ü', 'Ã½, ý', 'Ã¾, þ', 'Ã¿, ÿ', 'Á©, é', 'Á³, ó', 'Á, í', 'í§, ç', 'í¡, á', 'íª, ê', 'í£, ã', 'íº, ú', 'Ã», û','Ã¼, ü', 'Ã½, ý', 'Ã¾, þ', 'Ã¿, ÿ', 'Á©, é', 'Á³, ó', 'Á, í', 'í§, ç', 'í¡, á', 'Ã©, é', 'Ã§, ç', 'Ãª, ê', 'í¯, î', 'í, à', 'í´, ô', 'í¢, â', 'í», û', 'í¹, ù', 'í¯, ï', 'Å“, oe', 'àª, ê']
-
-def char_formatter(character):
-	splitter = character.split(',')
-	char_1 = f'\'{splitter[0]}\''
-	new_char_1 = char_1.replace(' ','')
-	char_2 = f'\'{splitter[1]}\''
-	new_char_2 = char_2.replace(' ','')
-	return new_char_1 + ', '+ new_char_2
-
 file_name = f'{prefix}SQL8fix.sql'
 with open(file_name, 'w') as file_fix:
-	for table in tables:
-		table_value = ""
+	for table in tables:	
 		if table == "comments":
 			table_value = "comment_content"
-			for character in character_to_replace:
-				characters = char_formatter(character)
-				file_fix.write(f"update {prefix}{table} set {table_value} = replace({table_value}, {characters});\n")
+			file_fix.write(f"update {prefix}{table} set {table_value} = CONVERT(CAST(CONVERT({table_value} USING latin1) AS BINARY) USING utf8);\n")
 		elif table == "postmeta":
 			table_value = "meta_value"
-			for character in character_to_replace:
-				characters = char_formatter(character)
-				file_fix.write(f"update {prefix}{table} set {table_value} = replace({table_value}, {characters});\n")
+			file_fix.write(f"update {prefix}{table} set {table_value} = CONVERT(CAST(CONVERT({table_value} USING latin1) AS BINARY) USING utf8);\n")
 		elif table == "terms":
 			table_value = "name"
-			for character in character_to_replace:
-				characters = char_formatter(character)
-				file_fix.write(f"update {prefix}{table} set {table_value} = replace({table_value}, {characters});\n")
+			file_fix.write(f"update {prefix}{table} set {table_value} = CONVERT(CAST(CONVERT({table_value} USING latin1) AS BINARY) USING utf8);\n")
 		elif table == "posts":
-			for post_value in posts_values:
-				for character in character_to_replace:
-					characters = char_formatter(character)
-					file_fix.write(f"update {prefix}{table} set {post_value} = replace({post_value}, {characters});\n")
+			for table_value in posts_values:
+				file_fix.write(f"update {prefix}{table} set {table_value} = CONVERT(CAST(CONVERT({table_value} USING latin1) AS BINARY) USING utf8);\n")
 	print(f"File created as {file_name} \n Running import")
 	
 run_import = subprocess.Popen(['wp', 'db', 'import', file_name], stdout=subprocess.PIPE)
