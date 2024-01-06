@@ -59,7 +59,7 @@ import subprocess
 
 wordpress_prefix = subprocess.Popen(['wp', 'config', 'get', 'table_prefix'], stdout=subprocess.PIPE)
 prefix = wordpress_prefix.communicate()[0].decode('utf-8').strip()
-prefix = 'wp_testy_'
+
 print(f"The WordPress Prefix is {prefix}")
 wordpress_prefix.stdout.close()
 
